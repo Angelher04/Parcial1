@@ -18,7 +18,7 @@ BIRTH_LIMIT = 4
 NUMBER_OF_STEPS = 4
 
 # Player speed (pixels per frame)
-MOVEMENT_SPEED = 2
+MOVEMENT_SPEED = 5
 
 # Window config
 WINDOW_WIDTH = 1280
@@ -85,33 +85,7 @@ def do_simulation_step(old_grid):
 
 
 def find_item(grid, start, item_positions):
-    """
-    Encuentra la ruta más corta a la llave más cercana usando BFS.
-
-    Parámetros:
-        grid (list[list[int]]): Mapa, 1 = pared, 0 = libre.
-        start (tuple): (fila, columna) del jugador.
-        item_positions (list[tuple]): lista de posiciones (fila, columna) de llaves.
-
-    Retorna:
-        list[tuple]: Ruta desde start hasta la llave más cercana (incluye destino).
-        None si no hay camino.
-
-    Ejemplo:
-    --------
-    >>> maze = [
-    ...   [0, 1, 0],
-    ...   [0, 0, 0],
-    ...   [1, 0, 1],
-    ... ]
-    >>> start = (0, 0)
-    >>> items = [(1, 2)]
-    >>> find_item(maze, start, items)
-    Ruta encontrada: [(0, 0), (1, 0), (1, 1), (1, 2)]
-    Pasos: 4
-    Tiempo BFS: 0.000x s
-    [(0, 0), (1, 0), (1, 1), (1, 2)]
-    """
+ 
     start_time = timeit.default_timer()
 
     rows, cols = len(grid), len(grid[0])
@@ -142,7 +116,155 @@ def find_item(grid, start, item_positions):
 
 class InstructionView(arcade.View):
     def on_show_view(self):
-        self.window.background_color = arcade.csscolor.DARK_SLATE_BLUE
+        self.window.background_color = arcade.csscolor.DARK_GREEN       
+        class GameView(arcade.View):
+            def __init__(self):
+                super().__init__()
+                # ...existing code...
+                self.grid = None
+                self.wall_list = None
+                self.player_sprite = None
+                self.player_list = None
+                self.key_list = None
+                self.camera_sprites = arcade.Camera2D()
+                self.camera_gui = arcade.Camera2D()
+                self.path = []
+                self.keys_remaining = 1
+                self.key_positions = []
+                # ...existing code...
+                self.victory = False
+                self.banana_texture = arcade.load_texture("C:\\Users\\lap15\\OneDrive\\Imágenes\\platanos_0.jpg")  # Ruta de la imagen
+        
+            # ...existing code...
+        
+            def on_draw(self):
+                draw_start_time = timeit.default_timer()
+        
+                self.clear()
+                self.camera_sprites.use()                
+                class GameView(arcade.View):
+                    def __init__(self):
+                        super().__init__()
+                        # ...existing code...
+                        self.banana_texture = arcade.load_texture("C:/Users/lap15/OneDrive/Imágenes/platanos_0.jpg")  # Cambia la ruta si es necesario
+                        # ...existing code...
+                self.wall_list.draw(pixelated=True)
+                self.key_list.draw()
+                self.player_list.draw()
+        
+                self.camera_gui.use()
+                self.sprite_count_text.draw()
+                self.draw_time_text.text = f"Drawing time: {self.draw_time:.3f}"
+                self.draw_time_text.draw()
+                self.processing_time_text.text = f"Processing time: {self.processing_time:.3f}"
+                self.processing_time_text.draw()
+                self.keys_text.text = f"Llaves restantes: {self.keys_remaining}"
+                self.keys_text.draw()
+        
+                if self.victory:
+                    # Dibuja la imagen del plátano en el centro de la pantalla
+                    arcade.draw_texture_rectangle(
+                        self.window.width // 2,
+                        self.window.height // 2,
+                        600, 400,  # tamaño de la imagen
+                        self.banana_texture
+                    )
+                    arcade.draw_text(
+                        "¡Has recogido todas las llaves!",
+                        self.window.width // 2,
+                        self.window.height // 2 + 220,
+                        arcade.color.YELLOW,
+                        font_size=40,
+                        anchor_x="center",
+                    )
+                    # Si quieres ocultar el personaje y las llaves, puedes no dibujarlos cuando self.victory es True
+
+                self.draw_time = timeit.default_timer() - draw_start_time
+            class GameView(arcade.View):
+                # ...existing code...
+
+                def __init__(self):
+                    super().__init__()
+                    class GameView(arcade.View):
+                        def __init__(self):
+                            super().__init__()
+                            # ...existing code...
+                            self.banana_texture = arcade.load_texture("C:/Users/lap15/OneDrive/Imágenes/platanos_0.jpg")  # Cambia la ruta si es necesario
+                            # ...existing code...
+                    
+                        # ...existing code...
+                    
+                        def on_draw(self):
+                            draw_start_time = timeit.default_timer()
+                    
+                            self.clear()
+                            self.camera_sprites.use()
+                            self.wall_list.draw(pixelated=True)
+                            self.key_list.draw()
+                            self.player_list.draw()
+                    
+                            self.camera_gui.use()
+                            self.sprite_count_text.draw()
+                            self.draw_time_text.text = f"Drawing time: {self.draw_time:.3f}"
+                            self.draw_time_text.draw()
+                            self.processing_time_text.text = f"Processing time: {self.processing_time:.3f}"
+                            self.processing_time_text.draw()
+                            self.keys_text.text = f"Llaves restantes: {self.keys_remaining}"
+                            self.keys_text.draw()
+                    
+                            if self.victory:
+                                # Dibuja la imagen del plátano en el centro de la pantalla
+                                arcade.draw_texture_rectangle(
+                                    self.window.width // 2,
+                                    self.window.height // 2,
+                                    600, 400,  # tamaño de la imagen
+                                    self.banana_texture
+                                )
+                                arcade.draw_text(
+                                    "¡Has recogido todas las llaves!",
+                                    self.window.width // 2,
+                                    self.window.height // 2 + 220,
+                                    arcade.color.YELLOW,
+                                    font_size=40,
+                                    anchor_x="center",
+                                )
+                    
+                            self.draw_time = timeit.default_timer() - draw_start_time                # ...existing code...
+                self.at_exit = False
+                self.exit_texture = arcade.load_texture("C:\\Users\\lap15\\OneDrive\\Imágenes\\platanos_0.jpg")  # Cambia la ruta
+
+            def on_update(self, delta_time):
+                if self.victory or self.at_exit:
+                    return
+        
+                # ...existing movement code...
+        
+                # Detectar si el personaje está en el borde
+                col = int(self.player_sprite.center_x // SPRITE_SIZE)
+                row = int(self.player_sprite.center_y // SPRITE_SIZE)
+                if col == 0 or col == GRID_WIDTH - 1 or row == 0 or row == GRID_HEIGHT - 1:
+                    self.at_exit = True
+        
+                # ...existing code...
+        
+            def on_draw(self):
+                # ...existing code...
+                if self.at_exit:
+                    # Dibuja la imagen de salida en el centro de la pantalla
+                    arcade.draw_texture_rectangle(
+                        self.window.width // 2,
+                        self.window.height // 2,
+                        600, 400,  # tamaño de la imagen
+                        self.exit_texture
+                    )
+                    arcade.draw_text(
+                        "¡Has escapado del laberinto!",
+                        self.window.width // 2,
+                        self.window.height // 2 + 220,
+                        arcade.color.YELLOW,
+                        font_size=40,
+                        anchor_x="center",
+                    )
         self.window.default_camera.use()
 
     def on_draw(self):
@@ -226,7 +348,7 @@ class GameView(arcade.View):
                 placed = True
 
         # Keys
-        for _ in range(3):
+        for _ in range(1):
             placed = False
             while not placed:
                 col = random.randrange(GRID_WIDTH)
